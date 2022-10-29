@@ -8,7 +8,7 @@ const authorSchema = new Schema({
         //white space is trimmed off the end
         trim: true,
     },
-    LasttName: {
+    LastName: {
         type: String,
         required: true,
         //white space is trimmed off the end
@@ -16,4 +16,4 @@ const authorSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('Library', authorSchema);
+module.exports = mongoose.model('Author', authorSchema);
