@@ -4,7 +4,7 @@ const Author = require('../model/authorModel');
 const createAuthor = asyncHandler ( async (req, res) => {
     const{FirstName,LastName} = req.body
 
-    //Check whether vehicle is already registered
+    //Check whether author is already registered
     const authorExist = await Author.findOne({FirstName})
 
     
@@ -69,7 +69,7 @@ const updateAuthorDetails = asyncHandler( async (req, res) => {
         res.status(200).json({
             success : true,
             message : " Author Details Updated  successfully",
-            vehicleUpdated
+            authorUpdated
         })
 
     }else{
@@ -78,7 +78,7 @@ const updateAuthorDetails = asyncHandler( async (req, res) => {
     }
 })
 
-//Delete Vehicle data
+//Delete author data
 const deleteAuthor = asyncHandler( async (req, res) => {
     const Author_ID = req.params.id
     const authorExist = await Author.findById(req.params.id)

@@ -20,6 +20,6 @@ authorRoute.put('/update/:id', updateAuthorDetails);
 authorRoute.delete('/delete/:id', deleteAuthor);
 
 //Get author details by ID
-authorRoute.get('/viewbyID/:id', getAllAuthors)
+authorRoute.get('/viewbyID/:id', getAuthorbyID)
 
 module.exports = authorRoute;

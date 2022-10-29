@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Author = require('../model/authorModel');
+
 
 const bookSchema = new Schema({
     Name : {
@@ -14,8 +16,11 @@ const bookSchema = new Schema({
         //white space is trimmed off the end
         trim: true,
     },
-    Author: {
-        type: authorSchema,
-        required: true
+    BookAuthor: {
+        type: mongoose.Schema.Types.ObjectId, ref: 'Author',
+        required: true,
+       
     }
 })
+
+module.exports = mongoose.model('Book', bookSchema);

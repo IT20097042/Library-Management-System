@@ -8,7 +8,10 @@ const app = express()
 
 const connectDB = require('./config/db')
 const PORT =  5000;
+
+//routes
 var authorRoute = require("./routes/authorRoute");
+var bookRoute = require("./routes/bookRoute");
 
 app.use(cors());
 app.use(bodyparser.json());
@@ -24,6 +27,7 @@ app.use(
 
 
 app.use('/authors', authorRoute);
+app.use('/books', bookRoute);
 
 connectDB();
 
