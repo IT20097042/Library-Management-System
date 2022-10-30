@@ -109,6 +109,7 @@ const getBookbyID = asyncHandler( async (req, res) => {
         Name : bookExist.Name,
         ISBN : bookExist.ISBN,
         Author : AuthorName,
+        AuthorData:authorExist,
         Author_ID:authorExist._id
     }
     if(bookExist){
