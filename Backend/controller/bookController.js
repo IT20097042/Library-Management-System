@@ -4,8 +4,6 @@ const Author = require('../model/authorModel');
 
 const insertBook = asyncHandler ( async (req, res) => {
     const{Name, ISBN, BookAuthor} = req.body
-    // const author = await Author.findOne({Author})
-    //Check whether book is already registered
     const bookExist = await Book.findOne({Name})
 
     
@@ -39,12 +37,33 @@ const insertBook = asyncHandler ( async (req, res) => {
 
 //Get all books from the database.
 const getAllBooks = asyncHandler( async (req, res) => {
+    const page = parseInt(req.query.page)
+    const limit= parseInt(req.query.limit)
     const bookData = await Book.find();
     
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
 
+    
+        const next ={
+            page: page +1,
+            limit: limit
+        }
+    
+    
+    
+        const previous ={
+            page:page-1,
+            limit:limit
+        }
+   
+    
    if(bookData){
+    const resultBookData = bookData.slice(startIndex, endIndex)
        res.status(200).json({
-               bookData,
+               next,
+               previous,
+               bookData : resultBookData,
                success: true,
        }
        )
