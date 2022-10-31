@@ -8,7 +8,7 @@ const{insertBook, getAllBooks, updateBookDetails , deleteBook, getBookbyID} = re
 
 bookRoute.use(cors());
 
-//insert an author in the system
+//insert an book in the system
 bookRoute.post('/insert', insertBook);
 
 //View All books

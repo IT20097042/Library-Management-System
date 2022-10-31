@@ -1,116 +1,108 @@
-const asyncHandler = require('express-async-handler');
-const Author = require('../model/authorModel');
+const asyncHandler = require("express-async-handler");
+const Author = require("../model/authorModel");
 
-const createAuthor = asyncHandler ( async (req, res) => {
-    const{FirstName,LastName} = req.body
+//create a new author
+const createAuthor = asyncHandler(async (req, res) => {
+  const { FirstName, LastName } = req.body;
 
-    //Check whether author is already registered
-    const authorExist = await Author.findOne({FirstName})
+  //Check whether author is already registered
+  const authorExist = await Author.findOne({ FirstName });
 
-    
-
-    if(authorExist){
-        res.status(400).json({
-            success: false,
-            message :`${FirstName} already exist `})
+  if (authorExist) {
+    res.status(400).json({
+      success: false,
+      message: `${FirstName} already exist `,
+    });
+  } else {
+    const authorNew = await Author.create({
+      FirstName,
+      LastName,
+    });
+    if (authorNew) {
+      res.status(201).json({
+        success: true,
+        message: `Author Successfully Registered!! `,
+        authorNew,
+      });
+    } else {
+      res.status(400);
+      throw new Error("Invalid  data");
     }
-    else{
-        const authorNew = await Author.create({
-            FirstName,
-            LastName
-            }
-        )
-        if(authorNew){
-            res.status(201).json({
-                success: true,
-                message :`Author Successfully Registered!! `,
-                authorNew
-            })
-        }else{
-            res.status(400);
-            throw new Error('Invalid  data')
-        }
-    }
-    }
-
-)
+  }
+});
 
 //Get all authors from the database.
-const getAllAuthors = asyncHandler( async (req, res) => {
-    const authorsData = await Author.find()
+const getAllAuthors = asyncHandler(async (req, res) => {
+  const authorsData = await Author.find();
 
-   if(authorsData){
-       res.status(200).json({
-               authorsData,
-               success: true,
-       }
-       )
-   }
-    else{
-        res.status(200).json({
-            success: false,
-            message : "No registered authors"
-
-        })
-   }
-}
-
-)
+  if (authorsData) {
+    res.status(200).json({
+      authorsData,
+      success: true,
+    });
+  } else {
+    res.status(200).json({
+      success: false,
+      message: "No registered authors",
+    });
+  }
+});
 
 //Update author data
-const updateAuthorDetails = asyncHandler( async (req, res) => {
-    const Author_ID = req.params.id
-    const authorExist = await Author.findById(req.params.id)
+const updateAuthorDetails = asyncHandler(async (req, res) => {
+  const Author_ID = req.params.id;
+  const authorExist = await Author.findById(req.params.id);
 
-    if(authorExist){
-        const authorUpdated = await Author.findByIdAndUpdate(Author_ID, req.body, {
-            new : true,
-        })
-        res.status(200).json({
-            success : true,
-            message : " Author Details Updated  successfully",
-            authorUpdated
-        })
-
-    }else{
-        res.status(400) ;
-        throw new Error('Author is not found ')
-    }
-})
+  if (authorExist) {
+    const authorUpdated = await Author.findByIdAndUpdate(Author_ID, req.body, {
+      new: true,
+    });
+    res.status(200).json({
+      success: true,
+      message: " Author Details Updated  successfully",
+      authorUpdated,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Author is not found ");
+  }
+});
 
 //Delete author data
-const deleteAuthor = asyncHandler( async (req, res) => {
-    const Author_ID = req.params.id
-    const authorExist = await Author.findById(req.params.id)
-    if(authorExist){
-        const authorDeleted = await Author.findByIdAndDelete(Author_ID)
-        res.status(200).json({
-            success : true,
-            message : " Author Deleted successfully"
-    })
-
-    }else{
-        res.status(400) ;
-        throw new Error('Author is not found ')
-    }
-} )
+const deleteAuthor = asyncHandler(async (req, res) => {
+  const Author_ID = req.params.id;
+  const authorExist = await Author.findById(req.params.id);
+  if (authorExist) {
+    const authorDeleted = await Author.findByIdAndDelete(Author_ID);
+    res.status(200).json({
+      success: true,
+      message: " Author Deleted successfully",
+    });
+  } else {
+    res.status(400);
+    throw new Error("Author is not found ");
+  }
+});
 
 //Get Author detials by ID
-const getAuthorbyID = asyncHandler( async (req, res) => {
-    const Author_ID = req.params.id
-    const authorExist = await Author.findById(req.params.id)
-    if(authorExist){
-        res.status(200).json({
-            success : true,
-            authorExist
-    })
+const getAuthorbyID = asyncHandler(async (req, res) => {
+  const Author_ID = req.params.id;
+  const authorExist = await Author.findById(req.params.id);
+  if (authorExist) {
+    res.status(200).json({
+      success: true,
+      authorExist,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Author is not found ");
+  }
+});
 
-    }else{
-        res.status(400) ;
-        throw new Error('Author is not found ')
-    }
-}
-
-)
-
-module.exports = { createAuthor, getAllAuthors, updateAuthorDetails, deleteAuthor, getAuthorbyID}
+module.exports = {
+  createAuthor,
+  getAllAuthors,
+  updateAuthorDetails,
+  deleteAuthor,
+  getAuthorbyID,
+};
